@@ -6,6 +6,7 @@ import android.content.pm.ApplicationInfo
 import android.os.Build
 import android.util.DisplayMetrics
 import android.view.WindowManager
+import com.pushandmotion.sdk.models.PAMEvent
 import java.util.*
 
 class DeviceInfo {
@@ -60,6 +61,33 @@ class DeviceInfo {
             } else {
                false
             }
+        }
+
+
+        fun getAppUpgradeEvent(context: Context): PAMEvent? {
+
+            val pref = context.getSharedPreferences("pam", Context.MODE_PRIVATE)
+
+            val currentVersion = getAppVersion(context)
+            val versionOfLastRun = pref.getString("VersionOfLastRun","")
+
+            pref.edit().also {
+                it.putString("VersionOfLastRun", currentVersion)
+            }.commit()
+
+            if (versionOfLastRun == "") {
+                // First start after installing the app
+                val event = PAMEvent()
+                event.eventName = "app_first_launch"
+                return event
+            } else if (versionOfLastRun != currentVersion) {
+                // App was updated since last run
+                val event = PAMEvent()
+                event.eventName = "app_updated"
+                return event
+            }
+            // nothing changed
+            return null
         }
 
     }

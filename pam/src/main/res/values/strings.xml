@@ -1,3 +1,4 @@
 <resources>
     <string name="app_name">My Application</string>
+    <string name="default_pam_noti_channel">pam</string>
 </resources>

@@ -25,6 +25,11 @@ class PAM {
         this.context = context
 
         _instance = this
+
+        DeviceInfo.getAppUpgradeEvent(context)?.let{
+            trackCustomEvent(it)
+        }
+
     }
 
     companion object {
