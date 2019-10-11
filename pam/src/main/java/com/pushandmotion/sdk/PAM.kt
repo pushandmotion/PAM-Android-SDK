@@ -13,7 +13,6 @@ class PAM {
     private var deviceUUID: String?
 
     private var appId: String
-    private var pushNotiKeyMediaAlias: String? = null
     var pamContactID: String? = null
     private val apiClient: APIClient
     var context: Context
@@ -89,15 +88,15 @@ class PAM {
         trackCustomEvent(event)
     }
 
-    fun trackPushToken(pushToken: String?) {
-        pushNotiKeyMediaAlias?.let{ alias ->
-           pushToken?.let{ token ->
-               val event = PAMEvent ()
-               event.eventName = "save_push_noti_token"
-               event.formData.customData[alias] = token
-               trackCustomEvent(event)
-           }
+    fun trackPushToken(mediaAlias:String, pushToken: String?) {
+        pushToken?.let{ token ->
+            val event = PAMEvent ()
+            event.eventName = "save_push_noti_token"
+            event.formData.customData[mediaAlias] = pushToken
+
+            trackCustomEvent(event)
         }
+
     }
 
     fun trackPushTokenError(error: Error?) {
