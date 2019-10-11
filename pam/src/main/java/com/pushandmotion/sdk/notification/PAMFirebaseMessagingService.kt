@@ -20,7 +20,7 @@ class PAMFirebaseMessagingService : FirebaseMessagingService() {
 
         remoteMessage.data.isNotEmpty().let {
             Log.d(TAG, "Message data payload: " + remoteMessage.data)
-            sendNotification(remoteMessage.data["title"] ?: "", remoteMessage.data["message"] ?: "")
+            //sendNotification(remoteMessage.data["title"] ?: "", remoteMessage.data["message"] ?: "")
         }
 
         remoteMessage.notification?.let {
@@ -36,40 +36,38 @@ class PAMFirebaseMessagingService : FirebaseMessagingService() {
     }
 
     private fun sendRegistrationToServer(token: String?) {
-
-
         Log.d(TAG, "sendRegistrationTokenToServer($token)")
     }
 
 
-    private fun sendNotification(messagetitle: String, messageBody: String) {
-        val intent = Intent(this, PushNotiActivity::class.java)
-        intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP)
-        val pendingIntent = PendingIntent.getActivity(this, 0 /* Request code */, intent,
-            PendingIntent.FLAG_ONE_SHOT)
-
-        val channelId = getString(R.string.default_pam_noti_channel)
-        val defaultSoundUri = RingtoneManager.getDefaultUri(RingtoneManager.TYPE_NOTIFICATION)
-        val notificationBuilder = NotificationCompat.Builder(this, channelId)
-            .setSmallIcon(R.mipmap.ic_noti)
-            .setContentTitle(messagetitle)
-            .setContentText(messageBody)
-            .setAutoCancel(true)
-            .setSound(defaultSoundUri)
-            .setContentIntent(pendingIntent)
-
-        val notificationManager = getSystemService(Context.NOTIFICATION_SERVICE) as NotificationManager
-
-        // Since android Oreo notification channel is needed.
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
-            val channel = NotificationChannel(channelId,
-                "Channel human readable title",
-                NotificationManager.IMPORTANCE_DEFAULT)
-            notificationManager.createNotificationChannel(channel)
-        }
-
-        notificationManager.notify(0 /* ID of notification */, notificationBuilder.build())
-    }
+//    private fun sendNotification(messagetitle: String, messageBody: String) {
+//        val intent = Intent(this, PushNotiActivity::class.java)
+//        intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP)
+//        val pendingIntent = PendingIntent.getActivity(this, 0 /* Request code */, intent,
+//            PendingIntent.FLAG_ONE_SHOT)
+//
+//        val channelId = getString(R.string.default_pam_noti_channel)
+//        val defaultSoundUri = RingtoneManager.getDefaultUri(RingtoneManager.TYPE_NOTIFICATION)
+//        val notificationBuilder = NotificationCompat.Builder(this, channelId)
+//            .setSmallIcon(R.mipmap.ic_noti)
+//            .setContentTitle(messagetitle)
+//            .setContentText(messageBody)
+//            .setAutoCancel(true)
+//            .setSound(defaultSoundUri)
+//            .setContentIntent(pendingIntent)
+//
+//        val notificationManager = getSystemService(Context.NOTIFICATION_SERVICE) as NotificationManager
+//
+//        // Since android Oreo notification channel is needed.
+//        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
+//            val channel = NotificationChannel(channelId,
+//                "Channel human readable title",
+//                NotificationManager.IMPORTANCE_DEFAULT)
+//            notificationManager.createNotificationChannel(channel)
+//        }
+//
+//        notificationManager.notify(0 /* ID of notification */, notificationBuilder.build())
+//    }
 
     companion object {
 
